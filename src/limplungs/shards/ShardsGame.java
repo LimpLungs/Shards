@@ -93,8 +93,7 @@ public class ShardsGame
 		
 		container.repaint();
 		
-		// Mobile commit test.
-		// Double commit.
+		// PC to laptop batch test
 		
 		// Game Load Stage
 		
