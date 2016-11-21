@@ -94,6 +94,7 @@ public class ShardsGame
 		container.repaint();
 		
 		// PC to laptop batch test
+		// Laptop to PC test.
 		
 		// Game Load Stage
 		
