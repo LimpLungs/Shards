@@ -11,7 +11,6 @@ import javax.swing.JWindow;
 
 public class ShardsGame
 {
-
 	public static int width = 0;
 	public static int height = 0;
 	public static Dimension screen = new Dimension(0, 0);
@@ -94,6 +93,7 @@ public class ShardsGame
 		
 		container.repaint();
 		
+		// Mobile commit test.
 		
 		// Game Load Stage
 		
