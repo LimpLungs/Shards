@@ -3,14 +3,13 @@ package limplungs.shards;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.List;
-import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 public class ShardsGame
 {
+	// Set up screen
 	public static int width = 0;
 	public static int height = 0;
 	public static Dimension screen = new Dimension(0, 0);
@@ -92,9 +91,6 @@ public class ShardsGame
 		container.add(fourth);
 		
 		container.repaint();
-		
-		// PC to laptop batch test
-		// Laptop to PC test.
 		
 		// Game Load Stage
 		
