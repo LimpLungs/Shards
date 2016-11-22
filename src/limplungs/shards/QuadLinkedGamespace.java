@@ -1,6 +1,8 @@
 package limplungs.shards;
 
+import java.awt.Color;
 import java.awt.Point;
+import javax.swing.JPanel;
 
 public class QuadLinkedGamespace
 {
@@ -9,6 +11,7 @@ public class QuadLinkedGamespace
 	private QuadLinkedGamespace left;
 	private QuadLinkedGamespace right;
 	private Point location;
+	public JPanel visual;
 	
 	public QuadLinkedGamespace()
 	{
@@ -17,6 +20,10 @@ public class QuadLinkedGamespace
 		left = null;
 		right = null;
 		location = new Point(0,0);
+		visual = new JPanel();
+		visual.setSize(40,40);
+		visual.setBackground(new Color(30,30,30));
+		visual.setVisible(true);
 	}
 	
 	public Point getLocation()
@@ -28,6 +35,10 @@ public class QuadLinkedGamespace
 	{
 		location.x = x;
 		location.y = y;
+		
+		visual.setLocation(((ShardsGame.width / 2) - 20) + (x * 40) + (ShardsGame.posX * 40), ((ShardsGame.height / 2) - 20) + (y * 40) + (ShardsGame.posY * 40));
+		ShardsGame.instance.add(visual);
+		ShardsGame.instance.repaint();
 	}
 	
 	public void setLink(String direction, QuadLinkedGamespace link)
