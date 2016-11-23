@@ -35,10 +35,6 @@ public class QuadLinkedGamespace
 	{
 		location.x = x;
 		location.y = y;
-		
-		visual.setLocation(((ShardsGame.width / 2) - 20) + (x * 40) + (ShardsGame.posX * 40), ((ShardsGame.height / 2) - 20) + (y * 40) + (ShardsGame.posY * 40));
-		ShardsGame.instance.add(visual);
-		ShardsGame.instance.repaint();
 	}
 	
 	public void setLink(String direction, QuadLinkedGamespace link)
@@ -95,6 +91,11 @@ public class QuadLinkedGamespace
 			up = temp;
 			
 			ShardsGame.master.insert(up);
+			
+			//Call after location has been set up.
+			up.visual.setLocation(((ShardsGame.width / 2) - 20) + (up.location.x * 40), ((ShardsGame.height / 2) - 20) + (up.location.y * 40));
+			ShardsGame.instance.add(up.visual);
+			ShardsGame.instance.repaint();
 		}
 	}
 	

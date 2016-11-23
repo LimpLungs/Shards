@@ -1,14 +1,14 @@
 package limplungs.shards;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import javax.swing.AbstractAction;
-import javax.swing.JPanel;
-import javax.swing.KeyStroke;
+import java.awt.event.KeyListener;
 
-@SuppressWarnings("serial")
-public class GamePanel extends JPanel
+import javax.swing.JPanel;
+
+public class GamePanel extends JPanel implements KeyListener
 {
+	private static final long serialVersionUID = 1L;
+
 	public GamePanel()
 	{
 		this.setLocation(0,0);
@@ -16,16 +16,7 @@ public class GamePanel extends JPanel
 		this.setSize(ShardsGame.screen);
 		this.setFocusable(true);
 		this.requestFocusInWindow();
-		this.getInputMap().put(KeyStroke.getKeyStroke("ESC"), "released");
-		this.getActionMap().put("released", esc);
 	}
-	
-	// THIS IS NOT WORKING FOR SOME REASON...
-	public AbstractAction esc = new AbstractAction() {
-	    public void actionPerformed(ActionEvent e) {
-	    	System.out.println("Tried to exit");
-	    }
-	};
 	
 	public void up()
 	{
@@ -33,29 +24,46 @@ public class GamePanel extends JPanel
 		ShardsGame.master.find(ShardsGame.posX, ShardsGame.posY + 1).createUp();
 	}
 	
-	public void keyPressed(KeyEvent e)
+	public void down()
 	{
-		int key = e.getKeyCode();
-		
-		if (key == KeyEvent.VK_DOWN || key == KeyEvent.VK_S)
-		{
-			ShardsGame.posY += 1;
-			ShardsGame.master.find(ShardsGame.posX, ShardsGame.posY - 1).createDown();
-		}
-		else if (key == KeyEvent.VK_LEFT || key == KeyEvent.VK_A)
-		{
-			ShardsGame.posX -= 1;
-			ShardsGame.master.find(ShardsGame.posX + 1, ShardsGame.posY).createLeft();
-		}
-		else if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_D)
-		{
-			ShardsGame.posX += 1;
-			ShardsGame.master.find(ShardsGame.posX - 1, ShardsGame.posY).createRight();
-		}
-		
-		ShardsGame.instance.repaint();
-		System.out.println(ShardsGame.posX + " , " + ShardsGame.posY);
+		ShardsGame.posY += 1;
+		ShardsGame.master.find(ShardsGame.posX, ShardsGame.posY - 1).createDown();
+	}
+	
+	public void left()
+	{
+		ShardsGame.posX -= 1;
+		ShardsGame.master.find(ShardsGame.posX + 1, ShardsGame.posY).createLeft();
+	}
+	
+	public void right()
+	{
+		ShardsGame.posX += 1;
+		ShardsGame.master.find(ShardsGame.posX - 1, ShardsGame.posY).createRight();
+	}
+	
+	public void updateGamespaces()
+	{
+		this.repaint();
+		this.requestFocusInWindow();
 	}
 
+	@Override
+	public void keyPressed(KeyEvent arg0) {
 
+		int k = arg0.getKeyCode();
+		System.out.println(k + arg0.getID());
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }

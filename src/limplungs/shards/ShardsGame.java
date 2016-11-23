@@ -41,25 +41,21 @@ public class ShardsGame
 		game.setSize(width, height);
 
 		// set up content pane
-		container = game.getContentPane();
-		container.add(instance);
+		game.add(instance);
 		
 		// Set up instance
 		instance.setBackground(Color.BLACK);
 		instance.requestFocusInWindow();
 
 		// Game Creation Stage
-		
 		QuadLinkedGamespace origin = new QuadLinkedGamespace();
 		
 		master.insert(origin);	
 		
 		origin.visual.setLocation(((ShardsGame.width / 2) - 20), ((ShardsGame.height / 2) - 20) + (0 * 40));
 		instance.add(origin.visual);
-		instance.repaint();
+		instance.updateGamespaces();
 		container.repaint();
-		
-		System.out.println(posX + " , " + posY);
 	}
 	
 }
