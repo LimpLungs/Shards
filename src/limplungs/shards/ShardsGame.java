@@ -1,9 +1,12 @@
 package limplungs.shards;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 public class ShardsGame extends JFrame 
 {
@@ -118,9 +121,13 @@ public class ShardsGame extends JFrame
 
 class Controls implements KeyListener
 {
+	private ShardsGame shards;
+	
 	public Controls(ShardsGame game)
 	{
 		game.addKeyListener(this);
+		
+		shards = game;
 	}
 	
 	
@@ -152,22 +159,99 @@ class Controls implements KeyListener
 		
 		if (key.getKeyCode() == KeyEvent.VK_UP)
 		{
-			ShardsGameData.POSITION_Y -= 1;
+			Timer timer = new Timer(15, new ActionListener()
+			{
+				double count = 0.0;
+				double amount   = 0.1;
+
+			  	@Override
+			  	public void actionPerformed(ActionEvent activator)
+			  	{
+			  	    count += amount;
+			  	    ShardsGameData.POSITION_Y -= amount;
+			  	    shards.update();
+			  	    
+			  	    if (count >= 1.0)
+			  	    {
+			  	    	((Timer)activator.getSource()).stop();
+			  	    }
+			  	}
+			});
+			
+			timer.start();
 		}
 		
 		if (key.getKeyCode() == KeyEvent.VK_DOWN)
 		{
-			ShardsGameData.POSITION_Y += 1;
+			Timer timer = new Timer(15, new ActionListener()
+			{
+				double count = 0.0;
+				double amount   = 0.1;
+
+			  	@Override
+			  	public void actionPerformed(ActionEvent activator)
+			  	{
+			  	    count += amount;
+			  	    ShardsGameData.POSITION_Y += amount;
+			  	    shards.update();
+			  	    
+			  	    if (count >= 1.0)
+			  	    {
+			  	    	((Timer)activator.getSource()).stop();
+			  	    }
+			  	}
+			});
+			
+			timer.start();
 		}
 		
 		if (key.getKeyCode() == KeyEvent.VK_RIGHT)
 		{
-			ShardsGameData.POSITION_X += 1;
+			Timer timer = new Timer(15, new ActionListener()
+			{
+				double count = 0.0;
+				double amount   = 0.1;
+
+			  	@Override
+			  	public void actionPerformed(ActionEvent activator)
+			  	{
+			  	    count += amount;
+			  	    ShardsGameData.POSITION_X += amount;
+			  	    shards.update();
+			  	    
+			  	    if (count >= 1.0)
+			  	    {
+			  	    	((Timer)activator.getSource()).stop();
+			  	    }
+			  	}
+			});
+			
+			timer.start();
 		}
+		
 		
 		if (key.getKeyCode() == KeyEvent.VK_LEFT)
 		{
-			ShardsGameData.POSITION_X -= 1;
+			Timer timer = new Timer(15, new ActionListener()
+			{
+				double count = 0.0;
+				double amount   = 0.1;
+
+			  	@Override
+			  	public void actionPerformed(ActionEvent activator)
+			  	{
+			  	    count += amount;
+			  	    ShardsGameData.POSITION_X -= amount;
+			  	    shards.update();
+			  	    
+			  	    if (count >= 1.0)
+			  	    {
+			  	    	((Timer)activator.getSource()).stop();
+			  	    }
+			  	}
+			});
+			
+			timer.start();
 		}
 	}
 }

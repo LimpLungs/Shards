@@ -64,8 +64,8 @@ public class GamespaceList
 		
 		while (curr != null)
 		{
-			curr.space.visual.setLocation(((Settings.WIDTH  / 2) - (Settings.SIZE_X / 2) + (Settings.SIZE_X * curr.space.getLocation().x) - (Settings.SIZE_X * ShardsGameData.POSITION_X)), 
-			                              ((Settings.HEIGHT / 2) - (Settings.SIZE_Y / 2) + (Settings.SIZE_Y * curr.space.getLocation().y) - (Settings.SIZE_Y * ShardsGameData.POSITION_Y)));
+			curr.space.visual.setLocation(((Settings.WIDTH  / 2) - (Settings.SIZE_X / 2) + (Settings.SIZE_X * curr.space.getLocation().x) - (int)(Settings.SIZE_X * ShardsGameData.POSITION_X)), 
+			                              ((Settings.HEIGHT / 2) - (Settings.SIZE_Y / 2) + (Settings.SIZE_Y * curr.space.getLocation().y) - (int)(Settings.SIZE_Y * ShardsGameData.POSITION_Y)));
 			
 			curr = curr.next;
 		}
