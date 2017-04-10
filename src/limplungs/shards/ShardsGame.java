@@ -1,78 +1,192 @@
 package limplungs.shards;
 
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import javax.swing.JWindow;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JFrame;
 
-public class ShardsGame
+public class ShardsGame extends JFrame 
 {
-	// Set up screen
-	public static int width = 0;
-	public static int height = 0;
-	public static int posX = 0;
-	public static int posY = 0;
-	public static Dimension screen = new Dimension(0, 0);
-	public static GamespaceList master = new GamespaceList();
-	public static JWindow game = new JWindow();
-	public static GamePanel instance = new GamePanel();
-	public static Container container = new Container();
+	private static final long serialVersionUID = 1L;
+	
+	Thread time = new Thread();
+	boolean isRunning = false;
+	
+	public GamespaceList master = new GamespaceList();
 
 	public static void main(String[] args)
 	{
+		ShardsGame game = new ShardsGame();
 		
-		// GameTime thread
-		Thread time = new Thread();
-		time.setName("GameTime");
-		
-		
-		// If toolkit gets screen size properly, reset window variables
-		if (Toolkit.getDefaultToolkit().getScreenSize() != null)
-		{
-			screen = Toolkit.getDefaultToolkit().getScreenSize();
-			width = screen.width;
-			height = screen.height;
-		}
-		
-		// Set up window
-		game.setVisible(true);
-		game.setAlwaysOnTop(false);
-		game.setSize(width, height);
+		game.run();
 
-		// set up content pane
-		game.add(instance);
-		
-		// Set up instance
-		instance.setBackground(Color.BLACK);
-		instance.requestFocusInWindow();
-
-		// Game Creation Stage
-		QuadLinkedGamespace origin = new QuadLinkedGamespace();
-		
-		master.insert(origin);	
-		
-		origin.visual.setLocation(((ShardsGame.width / 2) - 20), ((ShardsGame.height / 2) - 20) + (0 * 40));
-		instance.add(origin.visual);
-		instance.updateGamespaces();
-		container.repaint();
+		System.out.println("Exit 0: Game Loop Ended");
+		System.exit(0);
 	}
 	
+	
+	
+    public void run()
+    { 
+    	initialize();
+            
+        while(isRunning) 
+        {
+        	long time = System.currentTimeMillis(); 
+            
+            update(); 
+            draw(); 
+            
+            //  delay for each frame  -   time it took for one frame 
+            time = (1000 / Settings.FPS) - (System.currentTimeMillis() - time); 
+            
+            if (time > 0.0) 
+            { 
+            	SleepFunctions.sleep(time, this.time);
+            }
+        }
+    } 
+    
+    
+    
+    void initialize()
+    {
+    	Settings.initVariables();
+    	
+		this.setUndecorated(true);
+		this.setAlwaysOnTop(true);
+		
+		this.setSize(Settings.WIDTH, Settings.HEIGHT);
+		
+		this.setBackground(Color.BLACK);
+		
+		this.setVisible(true);
+		
+		Settings.CONTROLS = new Controls(this);
+		
+		
+		// Set up first game space
+    	if (this.master.find(0, 0) == null)
+    	{
+    		this.master.insert(new QuadLinkedGamespace(0, 0));
+    		
+    		this.add(this.master.find(0, 0).visual);
+    	}
+		
+    	
+    	
+		this.isRunning = true;
+    }
+    
+    
+    
+    void update()
+    {
+    	this.master.updateVisuals();
+    	
+    	this.repaint();
+    	
+    	for (int i = 0; i < this.getComponentCount(); i++)
+    	{
+    		this.getComponent(i).repaint();
+    	}
+    }
+    
+    
+    
+    void draw()
+    {
+    	
+    }
+    
+    
+    
+    void save()
+    {
+    	
+    }
+    
+    
+    
+    void load()
+    {
+    	
+    }
 }
 
-// Sleeps the thread for parameter int.
-class Sleep
+
+
+class Controls implements KeyListener
+{
+	public Controls(ShardsGame game)
+	{
+		game.addKeyListener(this);
+	}
+	
+	
+	
+	@Override
+	public void keyPressed(KeyEvent key)
+	{
+		
+	}
+
+	
+	
+	@Override
+	public void keyTyped(KeyEvent key)
+	{
+		
+	}
+	
+	
+	
+	@Override
+	public void keyReleased(KeyEvent key)
+	{
+		if (key.getKeyCode() == KeyEvent.VK_ESCAPE)
+		{
+			System.out.println("Exit 1: Pressed Escape");
+			System.exit(1);
+		}
+		
+		if (key.getKeyCode() == KeyEvent.VK_UP)
+		{
+			ShardsGameData.POSITION_Y -= 1;
+		}
+		
+		if (key.getKeyCode() == KeyEvent.VK_DOWN)
+		{
+			ShardsGameData.POSITION_Y += 1;
+		}
+		
+		if (key.getKeyCode() == KeyEvent.VK_RIGHT)
+		{
+			ShardsGameData.POSITION_X += 1;
+		}
+		
+		if (key.getKeyCode() == KeyEvent.VK_LEFT)
+		{
+			ShardsGameData.POSITION_X -= 1;
+		}
+	}
+}
+
+
+
+class SleepFunctions
 {
 	@SuppressWarnings("static-access")
-	public Sleep(int num, Thread thread)
+	public static void sleep(long time, Thread thread)
 	{
 		try
 		{
-			thread.sleep(num);
+			thread.sleep(time);
 		}
 		catch (InterruptedException e)
 		{
 			System.out.print("Exited sleep erroneously for thread: " + thread.getName());
+			
 			System.exit(-1);
 		}
 	}

@@ -2,6 +2,7 @@ package limplungs.shards;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.util.Random;
 import javax.swing.JPanel;
 
 public class QuadLinkedGamespace
@@ -13,29 +14,37 @@ public class QuadLinkedGamespace
 	private Point location;
 	public JPanel visual;
 	
-	public QuadLinkedGamespace()
+	public QuadLinkedGamespace(int x, int y)
 	{
 		up = null;
 		down = null;
 		left = null;
 		right = null;
-		location = new Point(0,0);
+		location = new Point(x, y);
+		
 		visual = new JPanel();
-		visual.setSize(40,40);
-		visual.setBackground(new Color(30,30,30));
+		visual.setSize(Settings.SIZE_X, Settings.SIZE_Y);
+		visual.setBackground(new Color( new Random().nextInt(225) + 25, new Random().nextInt(225) + 25, new Random().nextInt(225) + 25 ) );
+		
 		visual.setVisible(true);
 	}
+	
+	
 	
 	public Point getLocation()
 	{
 		return location;
 	}
 	
+	// Shouldn't need to be used.
+	@Deprecated
 	public void setLocation(int x, int y)
 	{
 		location.x = x;
 		location.y = y;
 	}
+	
+	
 	
 	public void setLink(String direction, QuadLinkedGamespace link)
 	{
@@ -49,191 +58,19 @@ public class QuadLinkedGamespace
 			this.right = link;
 	}
 	
-	protected void createUp()
-	{
-		QuadLinkedGamespace temp = new QuadLinkedGamespace();
-		QuadLinkedGamespace link = null;
-		
-		// Links current and next space.
-		if (up == null)
-		{
-			temp.setLocation(this.location.x, this.location.y + 1);
-			
-			temp.down = this;
-			
-			// temp.up
-			link = ShardsGame.master.find(temp.getLocation().x, temp.getLocation().y + 1);
-			
-			if (link != null)
-			{
-				temp.setLink("up", link);
-				link.setLink("down", temp);
-			}
-			
-			// temp.left
-			link = ShardsGame.master.find(temp.getLocation().x - 1, temp.getLocation().y);
-			
-			if (link != null)
-			{
-				temp.setLink("left", link);
-				link.setLink("right", temp);
-			}
-			
-			// temp.right
-			link = ShardsGame.master.find(temp.getLocation().x + 1, temp.getLocation().y);
-			
-			if (link != null)
-			{
-				temp.setLink("right", link);
-				link.setLink("left", temp);
-			}
-			
-			up = temp;
-			
-			ShardsGame.master.insert(up);
-			
-			//Call after location has been set up.
-			up.visual.setLocation(((ShardsGame.width / 2) - 20) + (up.location.x * 40), ((ShardsGame.height / 2) - 20) + (up.location.y * 40));
-			ShardsGame.instance.add(up.visual);
-			ShardsGame.instance.repaint();
-		}
-	}
 	
-	protected void createDown()
-	{
-		QuadLinkedGamespace temp = new QuadLinkedGamespace();
-		QuadLinkedGamespace link = null;
-
-		// Links current and next space.
-		if (down == null)
-		{
-			temp.setLocation(this.location.x, this.location.y - 1);
-			
-			temp.up = this;
-			
-			// temp.down
-			link = ShardsGame.master.find(temp.getLocation().x, temp.getLocation().y - 1);
-			
-			if (link != null)
-			{
-				temp.setLink("down", link);
-				link.setLink("up", temp);
-			}
-			
-			// temp.left
-			link = ShardsGame.master.find(temp.getLocation().x - 1, temp.getLocation().y);
-
-			if (link != null)
-			{
-				temp.setLink("left", link);
-				link.setLink("right", temp);
-			}
-			
-			// temp.right
-			link = ShardsGame.master.find(temp.getLocation().x + 1, temp.getLocation().y);
-			
-			if (link != null)
-			{
-				temp.setLink("right", link);
-				link.setLink("left", temp);
-			}
-			
-			down = temp;
-			
-			ShardsGame.master.insert(down);
-		}
-
-	}
 	
-	protected void createLeft()
+	public QuadLinkedGamespace getLink(String direction)
 	{
-		QuadLinkedGamespace temp = new QuadLinkedGamespace();
-		QuadLinkedGamespace link = null;
-
-		// Links current and next space.
-		if (left == null)
-		{
-			temp.setLocation(this.location.x - 1, this.location.y);
-			
-			temp.right = this;
-			
-			// temp.up
-			link = ShardsGame.master.find(temp.getLocation().x, temp.getLocation().y + 1);
-			
-			if (link != null)
-			{
-				temp.setLink("up", link);
-				link.setLink("down", temp);
-			}
-			
-			// temp.down
-			link = ShardsGame.master.find(temp.getLocation().x, temp.getLocation().y - 1);
-			
-			if (link != null)
-			{
-				temp.setLink("down", link);
-				link.setLink("up", temp);
-			}
-			
-			// temp.left
-			link = ShardsGame.master.find(temp.getLocation().x - 1, temp.getLocation().y);
-			
-			if (link != null)
-			{
-				temp.setLink("left", link);
-				link.setLink("right", temp);
-			}
-			
-			left = temp;
-			
-			ShardsGame.master.insert(left);
-		}
-		
-	}
-	
-	protected void createRight()
-	{
-		QuadLinkedGamespace temp = new QuadLinkedGamespace();
-		QuadLinkedGamespace link = null;
-
-		// Links current and next space.
-		if (right == null)
-		{
-			temp.setLocation(this.location.x + 1, this.location.y);
-			
-			temp.left = this;
-			
-			// temp.up
-			link = ShardsGame.master.find(temp.getLocation().x, temp.getLocation().y + 1);
-			
-			if (link != null)
-			{
-				temp.setLink("up", link);
-				link.setLink("down", temp);
-			}
-			
-			// temp.down
-			link = ShardsGame.master.find(temp.getLocation().x, temp.getLocation().y - 1);
-			
-			if (link != null)
-			{
-				temp.setLink("down", link);
-				link.setLink("up", temp);
-			}
-			
-			// temp.right
-			link = ShardsGame.master.find(temp.getLocation().x + 1, temp.getLocation().y);
-			
-			if (link != null)
-			{
-				temp.setLink("right", link);
-				link.setLink("left", temp);
-			}
-			
-			right = temp;
-
-			ShardsGame.master.insert(right);
-		}
-		
+		if (direction.equals("up"))
+			return this.up;
+		else if (direction.equals("down"))
+			return this.down;
+		else if (direction.equals("left"))
+			return this.left;
+		else if (direction.equals("right"))
+			return this.right;
+		else
+			return null;
 	}
 }
