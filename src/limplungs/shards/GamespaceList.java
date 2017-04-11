@@ -13,10 +13,8 @@ public class GamespaceList
 		length = 0;
 	}
 	
-	public void insert(QuadLinkedGamespace space)
+	public void insert(Gamespace space)
 	{
-		length += 1;
-		
 		Node temp = new Node();
 		temp.space = space;
 		temp.next = null;
@@ -28,6 +26,8 @@ public class GamespaceList
 			headptr = temp;
 			tailptr = temp;
 			
+			length += 1;
+			
 			return;
 		}
 		
@@ -35,21 +35,23 @@ public class GamespaceList
 		tailptr.next = temp;
 		temp.prev = tailptr;
 		tailptr = temp;
+		
+		length += 1;
 	}
 	
 	
 	
-	public QuadLinkedGamespace find(int x, int y)
+	public Gamespace find(int x, int y)
 	{
 		Node curr = headptr;
 		
-		while (curr.space != null && (curr.space.getLocation().x != x || curr.space.getLocation().y != y))
+		while (curr != null && curr.space != null && (curr.space.getLocation().x != x || curr.space.getLocation().y != y))
 		{
 			curr = curr.next;
 		}
 		
 		// Returns space if points match.
-		if (curr.space != null && curr.space.getLocation().x == x && curr.space.getLocation().y == y)
+		if (curr != null && curr.space != null && curr.space.getLocation().x == x && curr.space.getLocation().y == y)
 			return curr.space;
 		
 		// Returns null.
@@ -64,8 +66,8 @@ public class GamespaceList
 		
 		while (curr != null)
 		{
-			curr.space.visual.setLocation(((Settings.WIDTH  / 2) - (Settings.SIZE_X / 2) + (Settings.SIZE_X * curr.space.getLocation().x) - (int)(Settings.SIZE_X * ShardsGameData.POSITION_X)), 
-			                              ((Settings.HEIGHT / 2) - (Settings.SIZE_Y / 2) + (Settings.SIZE_Y * curr.space.getLocation().y) - (int)(Settings.SIZE_Y * ShardsGameData.POSITION_Y)));
+			curr.space.visual.setLocation(((Settings.WIDTH  / 2) - (Settings.SIZE_X / 2) + (Settings.SIZE_X * curr.space.getLocation().x) - (int)(Settings.SIZE_X * EngineDeclarations.POSITION_X)), 
+			                              ((Settings.HEIGHT / 2) - (Settings.SIZE_Y / 2) + (Settings.SIZE_Y * curr.space.getLocation().y) - (int)(Settings.SIZE_Y * EngineDeclarations.POSITION_Y)));
 			
 			curr = curr.next;
 		}
@@ -74,7 +76,7 @@ public class GamespaceList
 
 class Node
 {
-	QuadLinkedGamespace space = null;
+	Gamespace space = null;
 	Node next = null;
 	Node prev = null;
 }

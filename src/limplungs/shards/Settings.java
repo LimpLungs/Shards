@@ -11,7 +11,7 @@ public class Settings
 	public static int SIZE_X = 0;
 	public static int SIZE_Y = 0;
 	
-	public static Double SCALE = 1.0;
+	public static Double SCALE = 2.0;
 
 	public static int ASPECT_X = 16;
 	public static int ASPECT_Y = 9;
@@ -29,7 +29,7 @@ public class Settings
 			HEIGHT = screen.height;
 		}
 		
-		SIZE_X = (int) (WIDTH  / ASPECT_X * SCALE);
-	    SIZE_Y = (int) (HEIGHT / ASPECT_Y * SCALE);
+		SIZE_X = (int) (WIDTH  / ASPECT_X * SCALE * .5);
+	    SIZE_Y = (int) (HEIGHT / ASPECT_Y * SCALE * .5);
 	}
 }

@@ -1,21 +1,11 @@
 package limplungs.shards;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 public class ShardsGame extends JFrame 
 {
 	private static final long serialVersionUID = 1L;
-	
-	Thread time = new Thread();
-	boolean isRunning = false;
-	
-	public GamespaceList master = new GamespaceList();
 
 	public static void main(String[] args)
 	{
@@ -33,7 +23,7 @@ public class ShardsGame extends JFrame
     { 
     	initialize();
             
-        while(isRunning) 
+        while(EngineDeclarations.isRunning) 
         {
         	long time = System.currentTimeMillis(); 
             
@@ -45,7 +35,7 @@ public class ShardsGame extends JFrame
             
             if (time > 0.0) 
             { 
-            	SleepFunctions.sleep(time, this.time);
+            	EngineFunctions.sleep(time, EngineDeclarations.time);
             }
         }
     } 
@@ -58,34 +48,32 @@ public class ShardsGame extends JFrame
     	
 		this.setUndecorated(true);
 		this.setAlwaysOnTop(true);
-		
 		this.setSize(Settings.WIDTH, Settings.HEIGHT);
-		
-		this.setBackground(Color.BLACK);
-		
+		this.getContentPane().setBackground(Color.BLACK);
 		this.setVisible(true);
 		
 		Settings.CONTROLS = new Controls(this);
 		
 		
-		// Set up first game space
-    	if (this.master.find(0, 0) == null)
-    	{
-    		this.master.insert(new QuadLinkedGamespace(0, 0));
-    		
-    		this.add(this.master.find(0, 0).visual);
-    	}
 		
+		// Set up first game space
+    	if (EngineDeclarations.master.find(0, 0) == null)
+    	{
+    		EngineDeclarations.master.insert(new Gamespace(0, 0));
+    		
+    		this.add(EngineDeclarations.master.find(0, 0).visual);
+    	}
     	
     	
-		this.isRunning = true;
+    	
+    	EngineDeclarations.isRunning = true;
     }
     
     
     
     void update()
     {
-    	this.master.updateVisuals();
+    	EngineDeclarations.master.updateVisuals();
     	
     	this.repaint();
     	
@@ -115,163 +103,4 @@ public class ShardsGame extends JFrame
     {
     	
     }
-}
-
-
-
-class Controls implements KeyListener
-{
-	private ShardsGame shards;
-	
-	public Controls(ShardsGame game)
-	{
-		game.addKeyListener(this);
-		
-		shards = game;
-	}
-	
-	
-	
-	@Override
-	public void keyPressed(KeyEvent key)
-	{
-		
-	}
-
-	
-	
-	@Override
-	public void keyTyped(KeyEvent key)
-	{
-		
-	}
-	
-	
-	
-	@Override
-	public void keyReleased(KeyEvent key)
-	{
-		if (key.getKeyCode() == KeyEvent.VK_ESCAPE)
-		{
-			System.out.println("Exit 1: Pressed Escape");
-			System.exit(1);
-		}
-		
-		if (key.getKeyCode() == KeyEvent.VK_UP)
-		{
-			Timer timer = new Timer(15, new ActionListener()
-			{
-				double count = 0.0;
-				double amount   = 0.1;
-
-			  	@Override
-			  	public void actionPerformed(ActionEvent activator)
-			  	{
-			  	    count += amount;
-			  	    ShardsGameData.POSITION_Y -= amount;
-			  	    shards.update();
-			  	    
-			  	    if (count >= 1.0)
-			  	    {
-			  	    	((Timer)activator.getSource()).stop();
-			  	    }
-			  	}
-			});
-			
-			timer.start();
-		}
-		
-		if (key.getKeyCode() == KeyEvent.VK_DOWN)
-		{
-			Timer timer = new Timer(15, new ActionListener()
-			{
-				double count = 0.0;
-				double amount   = 0.1;
-
-			  	@Override
-			  	public void actionPerformed(ActionEvent activator)
-			  	{
-			  	    count += amount;
-			  	    ShardsGameData.POSITION_Y += amount;
-			  	    shards.update();
-			  	    
-			  	    if (count >= 1.0)
-			  	    {
-			  	    	((Timer)activator.getSource()).stop();
-			  	    }
-			  	}
-			});
-			
-			timer.start();
-		}
-		
-		if (key.getKeyCode() == KeyEvent.VK_RIGHT)
-		{
-			Timer timer = new Timer(15, new ActionListener()
-			{
-				double count = 0.0;
-				double amount   = 0.1;
-
-			  	@Override
-			  	public void actionPerformed(ActionEvent activator)
-			  	{
-			  	    count += amount;
-			  	    ShardsGameData.POSITION_X += amount;
-			  	    shards.update();
-			  	    
-			  	    if (count >= 1.0)
-			  	    {
-			  	    	((Timer)activator.getSource()).stop();
-			  	    }
-			  	}
-			});
-			
-			timer.start();
-		}
-		
-		
-		if (key.getKeyCode() == KeyEvent.VK_LEFT)
-		{
-			Timer timer = new Timer(15, new ActionListener()
-			{
-				double count = 0.0;
-				double amount   = 0.1;
-
-			  	@Override
-			  	public void actionPerformed(ActionEvent activator)
-			  	{
-			  	    count += amount;
-			  	    ShardsGameData.POSITION_X -= amount;
-			  	    shards.update();
-			  	    
-			  	    if (count >= 1.0)
-			  	    {
-			  	    	((Timer)activator.getSource()).stop();
-			  	    }
-			  	}
-			});
-			
-			timer.start();
-		}
-	}
-}
-
-
-
-class SleepFunctions
-{
-	@SuppressWarnings("static-access")
-	public static void sleep(long time, Thread thread)
-	{
-		try
-		{
-			thread.sleep(time);
-		}
-		catch (InterruptedException e)
-		{
-			System.out.print("Exited sleep erroneously for thread: " + thread.getName());
-			
-			System.exit(-1);
-		}
-	}
 }
