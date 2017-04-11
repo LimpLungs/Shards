@@ -11,7 +11,7 @@ public class Settings
 	public static int SIZE_X = 0;
 	public static int SIZE_Y = 0;
 	
-	public static Double SCALE = 2.0;
+	public static Double SCALE = 1.0;
 
 	public static int ASPECT_X = 16;
 	public static int ASPECT_Y = 9;

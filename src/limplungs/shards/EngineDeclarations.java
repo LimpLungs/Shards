@@ -7,9 +7,14 @@ public class EngineDeclarations
 	 */
 	public static double POSITION_X = 0;
 	public static double POSITION_Y = 0;
+	
 	public static GamespaceList master = new GamespaceList();
+	
 	public static Thread time = new Thread();
+	
 	public static boolean isRunning = false;
+	
+	
 	
 	/**
 	 *  Data to Use
@@ -20,7 +25,7 @@ public class EngineDeclarations
 	// Other numbers tend to make a shift in the origin.
 	// Lower is better
 	public static double CAMERA_SMOOTHNESS   = .01; 
-	public static int CAMERA_MOVE_SPEED = 3;
+	public static int CAMERA_MOVE_SPEED = 2;
 	
 	public enum EnumDirection
 	{

@@ -16,7 +16,7 @@ public class Gamespace
 		
 		visual = new JPanel();
 		visual.setSize(Settings.SIZE_X, Settings.SIZE_Y);
-		visual.setBackground(new Color( new Random().nextInt(225) + 25, new Random().nextInt(225) + 25, new Random().nextInt(225) + 25 ) );
+		visual.setBackground(new Color( new Random().nextInt(200) + 25, new Random().nextInt(200) + 25, new Random().nextInt(200) + 25 ) );
 		visual.setLocation(-Settings.SIZE_X, -Settings.SIZE_Y); // Hide off the screen until moved.
 		visual.setVisible(true);
 	}
@@ -27,6 +27,8 @@ public class Gamespace
 	{
 		return location;
 	}
+	
+	
 	
 	// Shouldn't need to be used.
 	@Deprecated

@@ -1,6 +1,7 @@
 package limplungs.shards;
 
 import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 
 public class ShardsGame extends JFrame 
@@ -46,6 +47,7 @@ public class ShardsGame extends JFrame
     {
     	Settings.initVariables();
     	
+    	this.setLayout(null);
 		this.setUndecorated(true);
 		this.setAlwaysOnTop(true);
 		this.setSize(Settings.WIDTH, Settings.HEIGHT);
@@ -62,6 +64,8 @@ public class ShardsGame extends JFrame
     		EngineDeclarations.master.insert(new Gamespace(0, 0));
     		
     		this.add(EngineDeclarations.master.find(0, 0).visual);
+    		
+	  		EngineDeclarations.master.find(0, 0).visual.setBorder(BorderFactory.createLineBorder(Color.WHITE, 3));	
     	}
     	
     	
